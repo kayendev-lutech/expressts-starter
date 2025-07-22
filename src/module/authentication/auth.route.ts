@@ -1,6 +1,6 @@
 import { WrapperClass } from '@utils/wrapper.util.js';
 import { Router } from 'express';
-import { AuthController } from './auth.controller.js';
+import { AuthController } from './controller/auth.controller.js';
 import { validateRequest } from 'src/middleware/dto-validator.js';
 import { RegisterUserDto } from './dto/register.dto.js';
 import { LoginUserDto } from './dto/login.dto.js';

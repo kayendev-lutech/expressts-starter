@@ -1,5 +1,5 @@
-import { UserRepository } from './user.respository.js';
-import { IUser } from '@model/user/user.model.js';
+import { UserRepository } from '../repository/user.respository.js';
+import { User } from '../entity/user.entity.js';
 
 export class UserService {
   private userRepository: UserRepository;
@@ -8,7 +8,7 @@ export class UserService {
     this.userRepository = new UserRepository();
   }
 
-  async me(id: string): Promise<IUser> {
+  async me(id: string): Promise<User | null> {
     try {
       const user = await this.userRepository.me(id);
       return user;

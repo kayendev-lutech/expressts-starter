@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import { fileURLToPath } from 'url';
-import { v4 as uuidv4 } from 'uuid'; // Use uuid library to generate unique session ids
-import { debugInConsole } from '@constants/env.constants.js';
+import { v4 as uuidv4 } from 'uuid';
+import { debugInConsole } from '../constants/env.constants.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,17 +25,16 @@ class Logger {
   private constructor(
     options: LoggerOptions = { logToConsole: true, logLevel: 'info' },
   ) {
-    const logDir = path.resolve(__dirname, '../../logs');
+    const logDir = path.resolve(process.cwd(), 'logs');
     if (!fs.existsSync(logDir)) {
       fs.mkdirSync(logDir, { recursive: true });
     }
 
-    this.sessionId = new Date().toISOString();
+    this.sessionId = uuidv4();
 
-    // Create a log file with the session ID in its name
     this.logFilePath = path.join(logDir, `${this.sessionId}.log`);
-    this.logToConsole = options.logToConsole!;
-    this.logLevel = options.logLevel!;
+    this.logToConsole = options.logToConsole ?? true;
+    this.logLevel = options.logLevel ?? 'info';
   }
 
   private writeLog(
@@ -49,10 +48,9 @@ class Logger {
       ? `${logMessage} - ${JSON.stringify(additionalInfo)}`
       : logMessage;
 
-    // Append the log message to the session-specific log file
     fs.appendFileSync(this.logFilePath, fullLogMessage + '\n');
 
-    if (this.logToConsole == true && this.shouldLog(level)) {
+    if (this.logToConsole && this.shouldLog(level)) {
       const formattedMessage = this.getColoredMessage(
         level,
         timestamp,
@@ -126,7 +124,7 @@ class Logger {
 
 // Initialize the logger
 Logger.init({
-  logToConsole: JSON.parse(debugInConsole?.toLowerCase() || 'false'),
+  logToConsole: debugInConsole === 'true',
   logLevel: 'debug',
 });
 

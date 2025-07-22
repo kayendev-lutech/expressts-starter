@@ -1,5 +1,5 @@
 import { WrappedRequest } from '@utils/wrapper.util.js';
-import { UserService } from './user.service.js';
+import { UserService } from '../service/user.service.js'
 
 export class UserController {
   private userService: UserService;

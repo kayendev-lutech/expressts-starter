@@ -1,6 +1,6 @@
 import { WrapperClass } from '@utils/wrapper.util.js';
 import { Router } from 'express';
-import { UserController } from './user.controller.js';
+import { UserController } from '../user/controller/user.controller.js';
 import authMiddleware from 'src/middleware/auth.middleware.js';
 const router = Router();
 const wrappedUserController = new WrapperClass(
