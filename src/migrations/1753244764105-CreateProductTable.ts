@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateProductTable1753170222651 implements MigrationInterface {
-    name = 'CreateProductTable1753170222651'
+export class CreateProductTable1753244764105 implements MigrationInterface {
+    name = 'CreateProductTable1753244764105'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "products" (
-            "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+            "id" SERIAL NOT NULL,
             "name" character varying NOT NULL,
             "slug" character varying NOT NULL,
             "description" text,
@@ -20,12 +20,14 @@ export class CreateProductTable1753170222651 implements MigrationInterface {
             "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
             "deleted_at" TIMESTAMP,
             "metadata" json,
-            CONSTRAINT "UQ_product_slug" UNIQUE ("slug"),
-            CONSTRAINT "PK_product_id" PRIMARY KEY ("id")
+            CONSTRAINT "UQ_464f927ae360106b783ed0b4106" UNIQUE ("slug"),
+            CONSTRAINT "PK_0806c755e0aca124e67c0cf6d7d" PRIMARY KEY ("id")
         )`);
+        // Thêm các bảng khác nếu cần, KHÔNG tạo lại bảng users
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`DROP TABLE "products"`);
+        // Xóa các bảng khác nếu cần
     }
 }

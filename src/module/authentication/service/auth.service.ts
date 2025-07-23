@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { RegisterUserDto } from '../dto/register.dto.js';
 import { AuthRepository } from '../repository/auth.respository.js';
 import { LoginUserDto } from '../dto/login.dto.js';
@@ -6,7 +7,14 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from '@utils/jwt.util.js';
-import { AppError, ErrorType } from '../../../errors/app-error.js';
+import {
+  AppError,
+  BadRequestException,
+  UnauthorizedException,
+  ForbiddenException,
+  ConflictException,
+  InternalServerErrorException,
+} from '../../../errors/app-error.js';
 
 export class AuthService {
   private authRepository: AuthRepository;
@@ -16,11 +24,27 @@ export class AuthService {
   }
 
   async register(
-    createUserDto: RegisterUserDto,
-    deviceId: string,
+  createUserDto: RegisterUserDto,
+  deviceId: string,
   ): Promise<any> {
     try {
-      const userDetails = await this.authRepository.createUser(createUserDto);
+      // Check if user exists by email or username
+      const existUser = await this.authRepository.userRespository['repo'].findOne({
+        where: [
+          { email: createUserDto.email },
+          { username: createUserDto.username },
+        ],
+      });
+      if (existUser) {
+        throw new ConflictException('User already exists');
+      }
+      // Set default role
+      const userWithRole = {
+        ...createUserDto,
+        role: 'user',
+      };
+
+      const userDetails = await this.authRepository.createUser(userWithRole);
 
       const payload = {
         userId: userDetails?.id,
@@ -32,7 +56,8 @@ export class AuthService {
         user_id: payload.userId,
         token: refreshToken,
         type: 'refresh',
-        created_ip: '', // truyền ip nếu có
+        expires_at: dayjs().add(7, 'day').toDate(),
+        created_ip: '', 
         user_agent: deviceId,
       });
 
@@ -41,9 +66,8 @@ export class AuthService {
         refreshToken: refreshToken,
       };
     } catch (error: any) {
-      throw error instanceof AppError
-        ? error
-        : new AppError(ErrorType.Validation, error?.message || 'Registration failed', 400, error);
+      if (error instanceof AppError) throw error;
+      throw new BadRequestException(error?.message || 'Registration failed', error);
     }
   }
 
@@ -69,7 +93,8 @@ export class AuthService {
         user_id: payload.userId,
         token: refreshToken,
         type: 'refresh',
-        created_ip: '', // truyền ip nếu có
+        created_ip: '', 
+        expires_at: dayjs().add(7, 'day').toDate(),
         user_agent: deviceId,
       });
 
@@ -78,9 +103,8 @@ export class AuthService {
         refreshToken: refreshToken,
       };
     } catch (error: any) {
-      throw error instanceof AppError
-        ? error
-        : new AppError(ErrorType.Auth, error?.message || 'Login failed', 401, error);
+      if (error instanceof AppError) throw error;
+      throw new UnauthorizedException(error?.message || 'Login failed', error);
     }
   }
 
@@ -112,9 +136,8 @@ export class AuthService {
       const newAccessToken = generateAccessToken({ userId: userId });
       return { accessToken: newAccessToken, refreshToken: newRefreshToken };
     } catch (error: any) {
-      throw error instanceof AppError
-        ? error
-        : new AppError(ErrorType.Auth, error?.message || 'Refresh failed', 400, error);
+      if (error instanceof AppError) throw error;
+      throw new UnauthorizedException(error?.message || 'Refresh failed', error);
     }
   }
 
@@ -123,9 +146,8 @@ export class AuthService {
       const result = await this.authRepository.revoke(userId, deviceId);
       return result;
     } catch (error: any) {
-      throw error instanceof AppError
-        ? error
-        : new AppError(ErrorType.Auth, error?.message || 'Logout failed', 400, error);
+      if (error instanceof AppError) throw error;
+      throw new BadRequestException(error?.message || 'Logout failed', error);
     }
   }
 
@@ -134,9 +156,8 @@ export class AuthService {
       const result = await this.authRepository.revokeAll(userId);
       return result;
     } catch (error: any) {
-      throw error instanceof AppError
-        ? error
-        : new AppError(ErrorType.Auth, error?.message || 'Logout all failed', 400, error);
+      if (error instanceof AppError) throw error;
+      throw new BadRequestException(error?.message || 'Logout all failed', error);
     }
   }
 }

@@ -11,3 +11,4 @@ export const jwtRefreshSecret = getEnv('JWT_REFRESH_SECRET') || 'your_refresh_se
 export const accessTokenExpiry = getEnv('ACCESS_TOKEN_EXPIRY') || '15m';
 export const refreshTokenExpiry = getEnv('REFRESH_TOKEN_EXPIRY') || '7d';
 export const debugInConsole = getEnv('DEBUG_CONSOLE') || 'true';
+export const frontEndUrls = getEnv('FRONT_END_URLS') || 'true';
