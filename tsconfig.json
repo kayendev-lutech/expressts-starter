@@ -11,7 +11,7 @@
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
         "rootDir": "./src",
-        "baseUrl": "./",
+        "baseUrl": ".",
         "typeRoots": [
             "./src/types/*",
             "./node_modules/@types"
@@ -40,12 +40,15 @@
             ],
             "@types/*": [
                 "src/types/*"
+            ],
+            "@errors/*": [
+                "src/errors/*"
             ]
         }
     },
     "include": [
         "src/**/*"
-    ],
+, "src/swagger.config.ts"    ],
     "exclude": [
         "node_modules",
         "dist"

@@ -1,17 +1,18 @@
+import 'reflect-metadata';
 import dotenv from 'dotenv';
 import app from './app.js';
-import { connectDB } from '@config/db.config.js';
+import { AppDataSource } from '@config/typeorm.config.js';
+import { logger } from './logger/logger.js';
 import { port } from '@constants/env.constants.js';
-dotenv.config();
 
-logger.info('Logger is working'); // Add this line to see if it compiles
+dotenv.config();
 
 const PORT = port || 3000;
 
-// Start the server and connect to the database
 const startServer = async () => {
+  logger.info('Starting server...');
   try {
-    await connectDB(); // Connect to the database
+    await AppDataSource.initialize();
     logger.info('Database connected successfully');
 
     app.listen(PORT, () => {
@@ -19,7 +20,7 @@ const startServer = async () => {
     });
   } catch (error) {
     logger.error('Database connection failed:', error);
-    process.exit(1); // Exit the process if the connection fails
+    process.exit(1);
   }
 };
 
