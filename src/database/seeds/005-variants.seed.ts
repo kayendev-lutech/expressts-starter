@@ -1,6 +1,6 @@
-import { AppDataSource } from "../config/typeorm.config.js";
-import { Variant } from "../module/variant/entity/variant.entity.js";
-import { Product } from "../module/product/entity/product.entity.js";
+import { AppDataSource } from "@config/typeorm.config.js";
+import { Variant } from "@module/variant/entity/variant.entity.js";
+import { Product } from "@module/product/entity/product.entity.js";
 
 export const seedVariants = async () => {
   const variantRepo = AppDataSource.getRepository(Variant);

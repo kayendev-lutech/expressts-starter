@@ -1,5 +1,5 @@
-import { AppDataSource } from "../config/typeorm.config.js";
-import { Category } from "../module/category/entity/category.entity.js";
+import { AppDataSource } from "@config/typeorm.config.js";
+import { Category } from "@module/category/entity/category.entity.js";
 
 export const seedCategories = async () => {
   const categoryRepo = AppDataSource.getRepository(Category);

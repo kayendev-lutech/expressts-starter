@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('categories')
 export class Category {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
   @Column({ type: 'varchar' })
@@ -14,8 +14,8 @@ export class Category {
   @Column({ type: 'text', nullable: true })
   description?: string;
 
-  @Column({ type: 'uuid', nullable: true })
-  parent_id?: string;
+  @Column({ type: 'int', nullable: true })
+  parent_id?: number;
 
   @Column({ type: 'int', default: 0 })
   sort_order!: number;

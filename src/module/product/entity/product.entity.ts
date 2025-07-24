@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('products')
 export class Product {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
   @Column({ type: 'varchar' })
@@ -23,7 +23,7 @@ export class Product {
   @Column({ type: 'varchar', default: 'VND' })
   currency_code!: string;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'int' })
   category_id!: string;
 
   @Column({ type: 'varchar', nullable: true })

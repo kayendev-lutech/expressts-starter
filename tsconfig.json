@@ -40,12 +40,15 @@
             ],
             "@types/*": [
                 "src/types/*"
+            ],
+            "@errors/*": [
+                "src/errors/*"
             ]
         }
     },
     "include": [
         "src/**/*"
-    ],
+, "src/swagger.config.ts"    ],
     "exclude": [
         "node_modules",
         "dist"

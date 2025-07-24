@@ -1,9 +1,9 @@
-import { UserRepository } from '../../user/repository/user.respository.js';
+import { UserRepository } from '@module/user/repository/user.respository.js';
 // import { UserRepository } from '../../';
 
-import { TokenRepository } from '../../token/repository/token.respository.js';
-import { User } from '../../user/entity/user.entity.js';
-import { Token } from '../../token/entity/token.entity.js';
+import { TokenRepository } from '@module/token/repository/token.respository.js';
+import { User } from '@module/user/entity/user.entity.js';
+import { Token } from '@module/token/entity/token.entity.js';
 
 export class AuthRepository {
   private userRespository: UserRepository;
@@ -40,5 +40,13 @@ export class AuthRepository {
 
   async revokeAll(userId: string) {
     return this.tokenRespository.revokeAllToken(userId);
+  }
+  async findUserByEmailOrUsername(email: string, username: string) {
+    return this.userRespository.repo.findOne({
+      where: [
+        { email },
+        { username },
+      ],
+    });
   }
 }

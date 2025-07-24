@@ -1,6 +1,6 @@
-import { AppDataSource } from "../config/typeorm.config.js";
-import { User } from "../module/user/entity/user.entity.js";
-import { Role } from "../module/role/entity/role.entity.js";
+import { AppDataSource } from "@config/typeorm.config.js";
+import { User } from "@module/user/entity/user.entity.js";
+import { Role } from "@module/role/entity/role.entity.js";
 import bcrypt from "bcryptjs";
 
 export const seedUsers = async () => {

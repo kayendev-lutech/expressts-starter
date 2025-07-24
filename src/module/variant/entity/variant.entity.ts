@@ -2,10 +2,10 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('variants')
 export class Variant {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'int' })
   product_id!: string;
 
   @Column({ type: 'varchar' })

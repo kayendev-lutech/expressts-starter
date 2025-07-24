@@ -1,12 +1,16 @@
-import { AppDataSource } from '../../../config/typeorm.config.js';
-import { User } from '../entity/user.entity.js';
+import { AppDataSource } from '@config/typeorm.config.js';
+import { User } from '@module/user/entity/user.entity.js';
 import bcrypt from 'bcryptjs';
 
 export class UserRepository {
-  private repo = AppDataSource.getRepository(User);
+  public repo = AppDataSource.getRepository(User);
 
   async me(id: string) {
     return this.repo.findOne({ where: { id } });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.repo.find();
   }
 
   async createUser(user: Partial<User>) {

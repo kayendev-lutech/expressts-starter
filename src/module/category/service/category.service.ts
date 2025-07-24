@@ -1,8 +1,17 @@
-import { CategoryRepository } from '../repository/category.respository.js';
-import { Category } from '../entity/category.entity.js';
+import { CategoryRepository } from '@module/category/repository/category.respository.js';
+import { Category } from '@module/category/entity/category.entity.js';
+import {
+  AppError,
+  ErrorCode,
+  InternalServerErrorException,
+} from '@errors/app-error.js';
 
 export class CategoryService {
-  private categoryRepository = new CategoryRepository();
+  private categoryRepository: CategoryRepository;
+
+  constructor() {
+    this.categoryRepository = new CategoryRepository();
+  }
 
   async getAll(): Promise<Category[]> {
     return this.categoryRepository.findAll();
@@ -15,12 +24,26 @@ export class CategoryService {
   async create(data: Partial<Category>): Promise<Category> {
     return this.categoryRepository.createCategory(data);
   }
+    async getByIdOrFail(id: string): Promise<Category> {
+    const category = await this.categoryRepository.findById(id);
+    if (!category) {
+      throw new AppError(ErrorCode.ERR_004, 'Category not found', 404);
+    }
+    return category;
+  }
 
-  async update(id: string, data: Partial<Category>): Promise<Category | null> {
-    return this.categoryRepository.updateCategory(id, data);
+  async update(id: string, data: Partial<Category>): Promise<Category> {
+    const updated = await this.categoryRepository.updateCategory(id, data);
+    if (!updated) {
+      throw new AppError(ErrorCode.ERR_004, 'Category not found', 404);
+    }
+    return updated;
   }
 
   async delete(id: string): Promise<void> {
-    await this.categoryRepository.deleteCategory(id);
+    const deleted = await this.categoryRepository.deleteCategory(id);
+    if (!deleted) {
+      throw new AppError(ErrorCode.ERR_004, 'Category not found', 404);
+    }
   }
 }

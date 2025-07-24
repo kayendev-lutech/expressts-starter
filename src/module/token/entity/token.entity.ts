@@ -2,10 +2,10 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('tokens')
 export class Token {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
-  @Column({ type: 'uuid' })
+  @Column({ type: 'int' })
   user_id!: string;
 
   @Column({ type: 'varchar' })

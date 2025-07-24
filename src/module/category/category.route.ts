@@ -1,23 +1,126 @@
+import { WrapperClass } from '@utils/wrapper.util.js';
 import { Router } from 'express';
 import { CategoryController } from './controller/category.controller.js';
 
 const router = Router();
-const controller = new CategoryController();
+const wrappedCategoryController = new WrapperClass(
+  new CategoryController(),
+) as unknown as CategoryController & { [key: string]: any };
 
-router.get('/', (req, res, next) =>
-  controller.getAll(req).then((data: unknown) => res.json(data)).catch(next)
-);
-router.get('/:id', (req, res, next) =>
-  controller.getById(req).then((data: unknown) => res.json(data)).catch(next)
-);
-router.post('/', (req, res, next) =>
-  controller.create(req).then((data: unknown) => res.json(data)).catch(next)
-);
-router.put('/:id', (req, res, next) =>
-  controller.update(req).then((data: unknown) => res.json(data)).catch(next)
-);
-router.delete('/:id', (req, res, next) =>
-  controller.delete(req).then((data: unknown) => res.json(data)).catch(next)
-);
+/**
+ * @swagger
+ * /category:
+ *   get:
+ *     summary: Lấy danh sách danh mục
+ *     tags:
+ *       - Category
+ *     responses:
+ *       200:
+ *         description: Danh sách danh mục
+ */
+router.get('/', wrappedCategoryController.getAll);
+
+/**
+ * @swagger
+ * /category/{id}:
+ *   get:
+ *     summary: Lấy chi tiết danh mục
+ *     tags:
+ *       - Category
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID danh mục
+ *     responses:
+ *       200:
+ *         description: Thông tin danh mục
+ */
+router.get('/:id', wrappedCategoryController.getById);
+
+/**
+ * @swagger
+ * /category:
+ *   post:
+ *     summary: Tạo mới danh mục
+ *     tags:
+ *       - Category
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               slug:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               parent_id:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Danh mục đã được tạo
+ */
+router.post('/', wrappedCategoryController.create);
+
+/**
+ * @swagger
+ * /category/{id}:
+ *   put:
+ *     summary: Cập nhật danh mục
+ *     tags:
+ *       - Category
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID danh mục
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               slug:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               parent_id:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Danh mục đã được cập nhật
+ */
+router.put('/:id', wrappedCategoryController.update);
+
+/**
+ * @swagger
+ * /category/{id}:
+ *   delete:
+ *     summary: Xóa danh mục
+ *     tags:
+ *       - Category
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID danh mục
+ *     responses:
+ *       200:
+ *         description: Danh mục đã được xóa
+ */
+router.delete('/:id', wrappedCategoryController.delete);
 
 export default router;

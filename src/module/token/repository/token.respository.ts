@@ -1,5 +1,5 @@
-import { AppDataSource } from '../../../config/typeorm.config.js';
-import { Token } from '../entity/token.entity.js';
+import { AppDataSource } from '@config/typeorm.config.js';
+import { Token } from '@module/token/entity/token.entity.js';
 
 export class TokenRepository {
   private repo = AppDataSource.getRepository(Token);

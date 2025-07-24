@@ -1,6 +1,6 @@
-import { AppDataSource } from "../config/typeorm.config.js";
-import { Token } from "../module/token/entity/token.entity.js";
-import { User } from "../module/user/entity/user.entity.js";
+import { AppDataSource } from "@config/typeorm.config.js";
+import { Token } from "@module/token/entity/token.entity.js";
+import { User } from "@module/user/entity/user.entity.js";
 
 export const seedTokens = async () => {
   const tokenRepo = AppDataSource.getRepository(Token);

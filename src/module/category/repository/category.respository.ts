@@ -1,8 +1,13 @@
-import { AppDataSource } from '@config/typeorm.config';
-import { Category } from '../entity/category.entity';
+import { AppDataSource } from '@config/typeorm.config.js';
+import { Category } from '@module/category/entity/category.entity.js';
+import {
+  AppError,
+  ErrorCode,
+  InternalServerErrorException,
+} from '@errors/app-error.js';
 
 export class CategoryRepository {
-  private repo = AppDataSource.getRepository(Category);
+  public repo = AppDataSource.getRepository(Category);
 
   async findAll(): Promise<Category[]> {
     return this.repo.find();
@@ -22,7 +27,11 @@ export class CategoryRepository {
     return this.findById(id);
   }
 
-  async deleteCategory(id: string): Promise<void> {
-    await this.repo.delete({ id });
+  // Repository
+  async deleteCategory(id: string): Promise<boolean> {
+    const result = await this.repo.delete({ id });
+    return (result.affected ?? 0) > 0;
   }
+
+
 }

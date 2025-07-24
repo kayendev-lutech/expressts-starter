@@ -9,11 +9,27 @@ export class UserService {
   }
 
   async me(id: string): Promise<User | null> {
-    try {
-      const user = await this.userRepository.me(id);
-      return user;
-    } catch (error) {
-      throw error;
-    }
+    return this.userRepository.me(id);
+  }
+
+  async getAll(): Promise<User[]> {
+    return this.userRepository.findAll();
+  }
+
+  async getById(id: string): Promise<User | null> {
+    return this.userRepository.me(id);
+  }
+
+  async createUser(data: Partial<User>): Promise<User> {
+    return this.userRepository.createUser(data);
+  }
+
+  async updateUser(id: string, data: Partial<User>): Promise<User | null> {
+    await this.userRepository.repo.update({ id }, data);
+    return this.userRepository.me(id);
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    await this.userRepository.repo.delete({ id });
   }
 }

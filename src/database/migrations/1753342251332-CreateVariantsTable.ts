@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateVariantsTable1753244776930 implements MigrationInterface {
-    name = 'CreateVariantsTable1753244776930'
+export class CreateVariantsTable1753342251332 implements MigrationInterface {
+    name = 'CreateVariantsTable1753342251332'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`

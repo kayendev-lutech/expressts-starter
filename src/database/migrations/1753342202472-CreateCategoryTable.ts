@@ -1,16 +1,16 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateCategoryTable1753244316412 implements MigrationInterface {
-  name = 'CreateCategoryTable1753244316412';
+export class CreateCategoryTable1753342202472 implements MigrationInterface {
+  name = 'CreateCategoryTable1753342202472';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE "categories" (
-        "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+         "id" SERIAL NOT NULL,
         "name" character varying NOT NULL,
         "slug" character varying NOT NULL,
         "description" text,
-        "parent_id" uuid,
+        "parent_id" integer,
         "sort_order" integer NOT NULL DEFAULT 0,
         "is_active" boolean NOT NULL DEFAULT true,
         "created_at" TIMESTAMP NOT NULL DEFAULT now(),

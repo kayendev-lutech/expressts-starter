@@ -1,5 +1,5 @@
-import { AppDataSource } from "../config/typeorm.config.js";
-import { Role } from "../module/role/entity/role.entity.js";
+import { AppDataSource } from "@config/typeorm.config.js";
+import { Role } from "@module/role/entity/role.entity.js";
 
 export const seedRoles = async () => {
   const roleRepo = AppDataSource.getRepository(Role);

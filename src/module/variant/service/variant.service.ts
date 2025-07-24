@@ -1,5 +1,5 @@
-import { VariantRepository } from '../repository/variant.respository.js';
-import { Variant } from '../entity/variant.entity.js';
+import { VariantRepository } from '@module/variant/repository/variant.repository.js';
+import { Variant } from '@module/variant/entity/variant.entity.js';
 
 export class VariantService {
   private variantRepository = new VariantRepository();

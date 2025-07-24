@@ -21,7 +21,7 @@ export const AppDataSource = new DataSource({
   password: dbPassword,
   database: dbName,
   entities: ['src/module/**/entity/*.entity.{ts,js}'],
-  migrations: ['src/migrations/*.{ts,js}'],
+  migrations: ['src/database/migrations/*.{ts,js}'],
   synchronize: false,
   logging: false,
 });
