@@ -6,7 +6,11 @@ export const swaggerOptions = {
       version: '1.0.0',
       description: 'API for my app',
     },
-    servers: [{ url: 'http://localhost:8000/api/v1' }],
+    servers: [
+      { url: 'https://kiet-express-boilerplate-ecommerce.onrender.com/api/v1' },
+      // Có thể thêm cả localhost nếu muốn dùng cả local:
+      { url: 'http://localhost:8000/api/v1' }
+    ],
   },
   apis: [
     './src/module/**/*.ts', // Tìm tất cả file .ts trong module (controller, route)
