@@ -1,10 +1,7 @@
 import { WrappedRequest } from '@utils/wrapper.util.js';
 import { UserService } from '../service/user.service.js';
-import {
-  AppError,
-  ErrorCode,
-  InternalServerErrorException,
-} from '@errors/app-error.js';
+import { AppError, ErrorCode, InternalServerErrorException } from '@errors/app-error.js';
+import { instanceToPlain } from 'class-transformer';
 
 export class UserController {
   private userService: UserService;
@@ -14,70 +11,49 @@ export class UserController {
   }
 
   async me({ user }: WrappedRequest) {
-    try {
-      const result = await this.userService.me(user.userId);
-      return {
-        status: 200,
-        data: result,
-      };
-    } catch (error: any) {
-      if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to get user info', error);
-    }
+    const result = await this.userService.me(user.userId);
+    return {
+      status: 200,
+      data: instanceToPlain(result),
+    };
   }
+
   async getById({ params }: WrappedRequest) {
-    try {
-      const user = await this.userService.getById(params.id);
-      if (!user) {
-        throw new AppError(ErrorCode.ERR_004,'User not found',404);
-      }
-      return {
-        status: 200,
-        data: user,
-      };
-    } catch (error: any) {
-      if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to get user by id', error);
+    const user = await this.userService.getById(params.id);
+    if (!user) {
+      throw new AppError(ErrorCode.NOT_FOUND, 404, 'User not found');
     }
+    return {
+      status: 200,
+      data: instanceToPlain(user),
+    };
   }
+
   async getAll(): Promise<any> {
-    try {
-      const users = await this.userService.getAll();
-      return {
-        status: 200,
-        data: users,
-      };
-    } catch (error: any) {
-      if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to get users', error);
-    }
+    const users = await this.userService.getAll();
+    return {
+      status: 200,
+      data: users.map(u => instanceToPlain(u)),
+    };
   }
+
   async updateUser({ params, body }: WrappedRequest) {
-    try {
-      const updated = await this.userService.updateUser(params.id, body);
-      if (!updated) {
-        throw new AppError(ErrorCode.ERR_004, 'User not found', 404);
-      }
-      return {
-        status: 200,
-        data: updated,
-        message: 'User updated',
-      };
-    } catch (error: any) {
-      if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to update user', error);
+    const updated = await this.userService.updateUser(params.id, body);
+    if (!updated) {
+      throw new AppError(ErrorCode.NOT_FOUND, 404, 'User not found');
     }
+    return {
+      status: 200,
+      data: instanceToPlain(updated),
+      message: 'User updated',
+    };
   }
+
   async deleteUser({ params }: WrappedRequest) {
-    try {
-      await this.userService.deleteUser(params.id);
-      return {
-        status: 200,
-        message: 'User deleted',
-      };
-    } catch (error: any) {
-      if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to delete user', error);
-    }
+    await this.userService.deleteUser(params.id);
+    return {
+      status: 200,
+      message: 'User deleted',
+    };
   }
 }

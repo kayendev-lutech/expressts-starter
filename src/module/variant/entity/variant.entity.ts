@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseEntity } from '@common/base.entity.js';
 
 @Entity('variants')
-export class Variant {
+export class Variant extends BaseEntity{
   @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
@@ -46,13 +47,4 @@ export class Variant {
 
   @Column({ type: 'boolean', default: true })
   is_active!: boolean;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at!: Date;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_at!: Date;
-
-  @Column({ type: 'timestamp', nullable: true })
-  deleted_at?: Date;
 }

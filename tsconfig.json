@@ -43,6 +43,9 @@
             ],
             "@errors/*": [
                 "src/errors/*"
+            ],
+            "@common/*": [
+                "src/common/*"
             ]
         }
     },

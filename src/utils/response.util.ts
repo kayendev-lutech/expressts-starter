@@ -17,7 +17,7 @@ interface ErrorResponse {
 
 function handleSuccess<T>(
   res: Response,
-  result: SuccessResponse<T> | T, // Accept single data as result
+  result: SuccessResponse<T> | T,
 ) {
   let responseData: { success: boolean; message: string; data?: T };
   const defaultMessage = 'Operation successful';
@@ -41,7 +41,6 @@ function handleSuccess<T>(
 
     res.status(status).json(responseData);
   } else {
-    // If result is not an object, consider it as single data
     responseData = {
       success: true,
       message: defaultMessage,
@@ -53,29 +52,47 @@ function handleSuccess<T>(
 }
 
 function handleError(res: Response, error: ErrorResponse | string | any) {
-  let errorMessage: string;
+  let errorMessage: string = 'An unknown error occurred';
   let errorStatus: number = 500;
+  let errorObj: any = {};
 
   // Handle structured error with statusCode and error object
   if (error.statusCode && error.error) {
     errorStatus = error.statusCode;
     errorMessage = error.error.description || 'An error occurred';
+    errorObj = error.error;
   }
-  // Handle MongoDB errors
+  // Handle AppError instance
+  else if (error instanceof Error && 'statusCode' in error && 'code' in error) {
+    errorStatus = Number(error.statusCode) || 500;
+    errorMessage = error.message;
+    errorObj = {
+      statusCode: error.statusCode,
+      code: error.code,
+      details: (error as any)?.details?.toString(),
+    };
+  }
+  // Handle general errors with code property
   else if (error.code) {
-    errorStatus = 400; // Bad Request for general MongoDB errors
+    errorStatus = 400;
     errorMessage = error.errmsg || 'A database error occurred';
+    errorObj = {
+      code: error.code,
+      details: error.errmsg,
+    };
   }
-  // Handle class validation errors (e.g., from class-validator)
+  // Handle class validation errors
   else if (error.errors) {
-    errorStatus = 400; // Bad Request for validation errors
+    errorStatus = 400;
     errorMessage =
       error.errors.map((err: { message: string }) => err.message).join(', ') ||
       'Validation failed';
+    errorObj = error.errors;
   }
   // Handle string errors
   else if (typeof error === 'string') {
     errorMessage = error;
+    errorObj = {};
   }
   // Handle errors with a message property
   else if (error.message) {
@@ -83,21 +100,19 @@ function handleError(res: Response, error: ErrorResponse | string | any) {
     if (error.status) {
       errorStatus = error.status;
     }
+    errorObj = {};
   }
   // Handle array of errors
   else if (Array.isArray(error)) {
     errorMessage = error.map((err) => err.message || err).join(', ');
-    errorStatus = 400; // Bad Request for validation errors
-  }
-  // Fallback for unknown error types
-  else {
-    errorMessage = 'An unknown error occurred';
+    errorStatus = 400;
+    errorObj = error;
   }
 
   res.status(errorStatus).json({
     success: false,
     message: errorMessage,
-    error: error, // Exclude detailed error information
+    error: errorObj, // Only one success key, error details only inside error
   });
 }
 

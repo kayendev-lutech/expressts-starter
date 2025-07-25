@@ -1,9 +1,8 @@
 import { UserRepository } from '@module/user/repository/user.respository.js';
-// import { UserRepository } from '../../';
-
 import { TokenRepository } from '@module/token/repository/token.respository.js';
 import { User } from '@module/user/entity/user.entity.js';
 import { Token } from '@module/token/entity/token.entity.js';
+import { RegisterUserDto } from '@module/authentication/dto/register.dto.js';
 
 export class AuthRepository {
   private userRespository: UserRepository;
@@ -14,7 +13,7 @@ export class AuthRepository {
     this.tokenRespository = new TokenRepository();
   }
 
-  async createUser(user: Partial<User>): Promise<User> {
+  async createUser(user: RegisterUserDto): Promise<User> {
     return this.userRespository.createUser(user);
   }
 
@@ -41,12 +40,14 @@ export class AuthRepository {
   async revokeAll(userId: string) {
     return this.tokenRespository.revokeAllToken(userId);
   }
-  async findUserByEmailOrUsername(email: string, username: string) {
-    return this.userRespository.repo.findOne({
-      where: [
-        { email },
-        { username },
-      ],
-    });
+  async findUserByEmailOrUsername(email?: string, username?: string) {
+    const where = [];
+    if (email) where.push({ email });
+    if (username) where.push({ username });
+
+    if (where.length === 0) return null;
+
+    return this.userRespository.repo.findOne({ where });
   }
+
 }

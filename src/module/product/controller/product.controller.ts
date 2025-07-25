@@ -10,24 +10,26 @@ export class ProductController {
   private productService = new ProductService();
 
   async getAll({ query }: WrappedRequest) {
-    try {
-      const page = parseInt(query.page) || 1;
-      const limit = parseInt(query.limit) || 10;
-      const { data, total } = await this.productService.getAllWithPagination(page, limit);
-      return {
-        status: 200,
-        data,
-        pagination: {
-          page,
-          limit,
-          total,
-          totalPages: Math.ceil(total / limit),
-        },
-      };
-    } catch (error: any) {
-      if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to get products', error);
-    }
+    const { page = 1, limit = 10, search, order = 'ASC' } = query;
+    const { data, total } = await this.productService.getAllWithPagination(
+      Number(page),
+      Number(limit),
+      search,
+      order,
+    );
+    const totalPages = Math.ceil(total / Number(limit));
+    return {
+      status: 200,
+      data,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total,
+        totalPages,
+        hasNextPage: Number(page) < totalPages,
+        hasPreviousPage: Number(page) > 1,
+      },
+    };
   }
 
   async getById({ params }: WrappedRequest) {
@@ -39,7 +41,7 @@ export class ProductController {
       };
     } catch (error: any) {
       if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to get product by id', error);
+      throw new InternalServerErrorException(error?.message || 'Failed to get product by id');
     }
   }
 
@@ -53,7 +55,7 @@ export class ProductController {
       };
     } catch (error: any) {
       if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to create product', error);
+      throw new InternalServerErrorException(error?.message || 'Failed to create product');
     }
   }
 
@@ -67,7 +69,7 @@ export class ProductController {
       };
     } catch (error: any) {
       if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to update product', error);
+      throw new InternalServerErrorException(error?.message || 'Failed to update product');
     }
   }
 
@@ -80,7 +82,7 @@ export class ProductController {
       };
     } catch (error: any) {
       if (error instanceof AppError) throw error;
-      throw new InternalServerErrorException(error?.message || 'Failed to delete product', error);
+      throw new InternalServerErrorException(error?.message || 'Failed to delete product');
     }
   }
 }
