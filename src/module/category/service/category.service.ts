@@ -24,10 +24,11 @@ export class CategoryService {
   async create(data: Partial<Category>): Promise<Category> {
     return this.categoryRepository.createCategory(data);
   }
-    async getByIdOrFail(id: string): Promise<Category> {
+
+  async getByIdOrFail(id: string): Promise<Category> {
     const category = await this.categoryRepository.findById(id);
     if (!category) {
-      throw new AppError(ErrorCode.ERR_004, 'Category not found', 404);
+      throw new AppError(ErrorCode.NOT_FOUND, 404, 'Category not found');
     }
     return category;
   }
@@ -35,7 +36,7 @@ export class CategoryService {
   async update(id: string, data: Partial<Category>): Promise<Category> {
     const updated = await this.categoryRepository.updateCategory(id, data);
     if (!updated) {
-      throw new AppError(ErrorCode.ERR_004, 'Category not found', 404);
+      throw new AppError(ErrorCode.NOT_FOUND, 404, 'Category not found');
     }
     return updated;
   }
@@ -43,7 +44,7 @@ export class CategoryService {
   async delete(id: string): Promise<void> {
     const deleted = await this.categoryRepository.deleteCategory(id);
     if (!deleted) {
-      throw new AppError(ErrorCode.ERR_004, 'Category not found', 404);
+      throw new AppError(ErrorCode.NOT_FOUND, 404, 'Category not found');
     }
   }
 }

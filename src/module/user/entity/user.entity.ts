@@ -1,10 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { BaseEntity } from '@common/base.entity.js';
 
 @Entity('users')
-export class User {
+export class User extends BaseEntity{
   @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
+  @Exclude()
   @Column({ type: 'varchar', unique: true })
   username!: string;
 
@@ -14,12 +17,15 @@ export class User {
   @Column({ type: 'timestamp', nullable: true })
   email_verified_at?: Date;
 
+  @Exclude()
   @Column({ type: 'varchar' })
   password_hash!: string;
 
+  @Exclude()
   @Column({ type: 'varchar', nullable: true })
   full_name?: string;
 
+  @Exclude()
   @Column({ type: 'varchar', nullable: true })
   phone?: string;
 
@@ -34,15 +40,6 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true })
   last_login_at?: Date;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at!: Date;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_at!: Date;
-
-  @Column({ type: 'timestamp', nullable: true })
-  deleted_at?: Date;
 
   @Column({ type: 'json', nullable: true })
   metadata?: Record<string, any>;

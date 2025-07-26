@@ -1,16 +1,10 @@
-/**
- * @swagger
- * /product:
- *   get:
- *     summary: Lấy danh sách sản phẩm
- *     responses:
- *       200:
- *         description: Danh sách sản phẩm
- */
 import { WrapperClass } from '@utils/wrapper.util.js';
 import { Router } from 'express';
 import { ProductController } from '@module/product/controller/product.controller.js';
-
+// validate dto
+import { validateRequest } from 'src/middleware/dto-validator.js';
+import { PaginationQueryDto } from './dto/pagination.dto.js';
+import { IdParamDto } from './dto/id-param.dto.js';
 const router = Router();
 const wrappedProductController = new WrapperClass(
   new ProductController(),
@@ -37,7 +31,11 @@ const wrappedProductController = new WrapperClass(
  *       200:
  *         description: Danh sách sản phẩm
  */
-router.get('/', wrappedProductController.getAll);
+router.get(
+  '/',
+  validateRequest(PaginationQueryDto, 'query'),
+  wrappedProductController.getAll,
+);
 /**
  * @swagger
  * /product/{id}:
@@ -56,7 +54,11 @@ router.get('/', wrappedProductController.getAll);
  *       200:
  *         description: Thông tin sản phẩm
  */
-router.get('/:id', wrappedProductController.getById);
+router.get(
+  '/:id',
+  validateRequest(IdParamDto, 'params'),
+  wrappedProductController.getById,
+);
 /**
  * @swagger
  * /product:

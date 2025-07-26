@@ -11,6 +11,11 @@ export class VariantRepository {
   async findById(id: string): Promise<Variant | null> {
     return this.repo.findOne({ where: { id } });
   }
+  async findByProductId(product_id: string): Promise<Variant[]> {
+    return this.repo.find({
+      where: { product_id },
+    });
+  }
 
   async createVariant(data: Partial<Variant>): Promise<Variant> {
     const variant = this.repo.create(data);

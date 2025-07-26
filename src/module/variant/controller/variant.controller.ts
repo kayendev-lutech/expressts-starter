@@ -1,27 +1,49 @@
+import { WrappedRequest } from '@utils/wrapper.util.js';
 import { VariantService } from '../service/variant.service.js';
-import { Request } from 'express';
 
 export class VariantController {
   private variantService = new VariantService();
-
-  async getAll(req: Request) {
-    return await this.variantService.getAll();
+  async getAll({ query }: WrappedRequest) {
+    if (query.product_id) {
+      return {
+        status: 200,
+        data: await this.variantService.getByProductId(query.product_id),
+      };
+    }
+    return {
+      status: 200,
+      data: await this.variantService.getAll(),
+    };
   }
 
-  async getById(req: Request) {
-    return await this.variantService.getById(req.params.id);
+  async getById({ params }: WrappedRequest) {
+    return {
+      status: 200,
+      data: await this.variantService.getById(params.id),
+    };
   }
 
-  async create(req: Request) {
-    return await this.variantService.create(req.body);
+  async create({ body }: WrappedRequest) {
+    return {
+      status: 201,
+      data: await this.variantService.create(body),
+      message: 'Variant created',
+    };
   }
 
-  async update(req: Request) {
-    return await this.variantService.update(req.params.id, req.body);
+  async update({ params, body }: WrappedRequest) {
+    return {
+      status: 200,
+      data: await this.variantService.update(params.id, body),
+      message: 'Variant updated',
+    };
   }
 
-  async delete(req: Request) {
-    await this.variantService.delete(req.params.id);
-    return { message: 'Variant deleted' };
+  async delete({ params }: WrappedRequest) {
+    await this.variantService.delete(params.id);
+    return {
+      status: 200,
+      message: 'Variant deleted',
+    };
   }
 }

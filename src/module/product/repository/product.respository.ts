@@ -1,5 +1,6 @@
 import { AppDataSource } from '@config/typeorm.config.js';
 import { Product } from '@module/product/entity/product.entity.js';
+import { Like } from 'typeorm';
 
 export class ProductRepository {
   private repo = AppDataSource.getRepository(Product);
@@ -7,11 +8,21 @@ export class ProductRepository {
   async findAll(): Promise<Product[]> {
     return this.repo.find();
   }
-  async findWithPagination(page : number, limit: number): Promise<{ data: Product[]; total: number }> {
+  async findWithPagination(
+    page: number,
+    limit: number,
+    search?: string,
+    order: 'ASC' | 'DESC' = 'ASC'
+  ): Promise<{ data: Product[]; total: number }> {
+    const where: any = {};
+    if (search) {
+      where.name = Like(`%${search}%`);
+    }
     const [data, total] = await this.repo.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
-      order: { created_at: 'ASC' },
+      where,
+      order: { created_at: order },
     });
     return { data, total };
   }

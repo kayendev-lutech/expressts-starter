@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseEntity } from '@common/base.entity.js';
 
 @Entity('products')
-export class Product {
+export class Product extends BaseEntity{
   @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
@@ -34,15 +35,6 @@ export class Product {
 
   @Column({ type: 'boolean', default: true })
   is_visible!: boolean;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at!: Date;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updated_at!: Date;
-
-  @Column({ type: 'timestamp', nullable: true })
-  deleted_at?: Date;
 
   @Column({ type: 'json', nullable: true })
   metadata?: Record<string, any>;

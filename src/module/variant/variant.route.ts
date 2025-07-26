@@ -1,8 +1,11 @@
 import { Router } from 'express';
 import { VariantController } from './controller/variant.controller.js';
+import { WrapperClass } from '@utils/wrapper.util.js';
 
 const router = Router();
-const controller = new VariantController();
+const wrappedVariantController = new WrapperClass(
+  new VariantController(),
+) as unknown as VariantController & { [key: string]: any };
 
 /**
  * @swagger
@@ -15,9 +18,7 @@ const controller = new VariantController();
  *       200:
  *         description: Danh sách biến thể sản phẩm
  */
-router.get('/', (req, res, next) =>
-  controller.getAll(req).then((data: unknown) => res.json(data)).catch(next)
-);
+router.get('/', wrappedVariantController.getAll);
 
 /**
  * @swagger
@@ -37,9 +38,7 @@ router.get('/', (req, res, next) =>
  *       200:
  *         description: Thông tin biến thể sản phẩm
  */
-router.get('/:id', (req, res, next) =>
-  controller.getById(req).then((data: unknown) => res.json(data)).catch(next)
-);
+router.get('/:id', wrappedVariantController.getById);
 
 /**
  * @swagger
@@ -67,9 +66,7 @@ router.get('/:id', (req, res, next) =>
  *       201:
  *         description: Biến thể đã được tạo
  */
-router.post('/', (req, res, next) =>
-  controller.create(req).then((data: unknown) => res.json(data)).catch(next)
-);
+router.post('/', wrappedVariantController.create);
 
 /**
  * @swagger
@@ -102,9 +99,7 @@ router.post('/', (req, res, next) =>
  *       200:
  *         description: Biến thể đã được cập nhật
  */
-router.put('/:id', (req, res, next) =>
-  controller.update(req).then((data: unknown) => res.json(data)).catch(next)
-);
+router.put('/:id', wrappedVariantController.update);
 
 /**
  * @swagger
@@ -124,8 +119,6 @@ router.put('/:id', (req, res, next) =>
  *       200:
  *         description: Biến thể đã được xóa
  */
-router.delete('/:id', (req, res, next) =>
-  controller.delete(req).then((data: unknown) => res.json(data)).catch(next)
-);
+router.delete('/:id', wrappedVariantController.delete);
 
 export default router;

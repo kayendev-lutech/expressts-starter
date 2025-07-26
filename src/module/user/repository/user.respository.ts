@@ -1,6 +1,7 @@
 import { AppDataSource } from '@config/typeorm.config.js';
 import { User } from '@module/user/entity/user.entity.js';
 import bcrypt from 'bcryptjs';
+import { RegisterUserDto } from '@module/authentication/dto/register.dto.js';
 
 export class UserRepository {
   public repo = AppDataSource.getRepository(User);
@@ -13,9 +14,13 @@ export class UserRepository {
     return this.repo.find();
   }
 
-  async createUser(user: Partial<User>) {
-    const hashedPassword = await bcrypt.hash(user.password_hash!, 10);
+  async createUser(user: RegisterUserDto) {
+      if (!user.password) {
+      throw new Error('Password is required');
+    }
+    const hashedPassword = await bcrypt.hash(user.password, 10);
     const newUser = this.repo.create({ ...user, password_hash: hashedPassword });
+    delete (newUser as any).password; // Xóa trường password nếu có
     return this.repo.save(newUser);
   }
 
