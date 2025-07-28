@@ -1,10 +1,10 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class CreateVariantsTable1753342251332 implements MigrationInterface {
-    name = 'CreateVariantsTable1753342251332'
+  name = 'CreateVariantsTable1753342251332';
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
             CREATE TABLE "variants" (
                 "id" SERIAL PRIMARY KEY,
                 "product_id" integer NOT NULL,
@@ -27,9 +27,9 @@ export class CreateVariantsTable1753342251332 implements MigrationInterface {
                 CONSTRAINT "FK_variants_product_id" FOREIGN KEY ("product_id") REFERENCES "products"("id") ON DELETE CASCADE ON UPDATE CASCADE
             )
         `);
-    }
+  }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE IF EXISTS "variants"`);
-    }
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP TABLE IF EXISTS "variants"`);
+  }
 }

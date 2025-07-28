@@ -1,5 +1,5 @@
-import { AppDataSource } from './typeorm.config.js';
-import { logger } from '../logger/logger.js';
+import { AppDataSource } from './typeorm.config';
+import { logger } from '../logger/logger';
 
 export const connectDB = async (): Promise<void> => {
   try {

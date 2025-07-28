@@ -9,7 +9,7 @@ export const swaggerOptions = {
     servers: [
       { url: 'https://kiet-express-boilerplate-ecommerce.onrender.com/api/v1' },
       // Có thể thêm cả localhost nếu muốn dùng cả local:
-      { url: 'http://localhost:8000/api/v1' }
+      { url: 'http://localhost:8000/api/v1' },
     ],
   },
   apis: [

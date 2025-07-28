@@ -1,6 +1,6 @@
-import { WrappedRequest } from '@utils/wrapper.util.js';
-import { UserService } from '../service/user.service.js';
-import { AppError, ErrorCode, InternalServerErrorException } from '@errors/app-error.js';
+import { WrappedRequest } from '@utils/wrapper.util';
+import { UserService } from '@module/user/service/user.service';
+import { AppError, ErrorCode } from '@errors/app-error';
 import { instanceToPlain } from 'class-transformer';
 
 export class UserController {
@@ -33,7 +33,7 @@ export class UserController {
     const users = await this.userService.getAll();
     return {
       status: 200,
-      data: users.map(u => instanceToPlain(u)),
+      data: users.map((u) => instanceToPlain(u)),
     };
   }
 

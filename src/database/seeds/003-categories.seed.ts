@@ -1,12 +1,12 @@
-import { AppDataSource } from "@config/typeorm.config.js";
-import { Category } from "@module/category/entity/category.entity.js";
+import { AppDataSource } from '@config/typeorm.config';
+import { Category } from '@module/category/entity/category.entity';
 
 export const seedCategories = async () => {
   const categoryRepo = AppDataSource.getRepository(Category);
 
   const categories = [
-    { name: "Electronics", slug: "electronics", description: "Electronic items and gadgets" },
-    { name: "Fashion", slug: "fashion", description: "Clothing and fashion items" },
+    { name: 'Electronics', slug: 'electronics', description: 'Electronic items and gadgets' },
+    { name: 'Fashion', slug: 'fashion', description: 'Clothing and fashion items' },
   ];
 
   for (const c of categories) {
@@ -16,13 +16,13 @@ export const seedCategories = async () => {
     }
   }
 
-  console.log("Seeded categories successfully");
+  console.log('Seeded categories successfully');
 };
 
 AppDataSource.initialize()
   .then(() => seedCategories())
   .then(() => process.exit(0))
   .catch((err) => {
-    console.error("Seeding categories failed", err);
+    console.error('Seeding categories failed', err);
     process.exit(1);
   });

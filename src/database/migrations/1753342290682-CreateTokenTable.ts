@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class CreateTokenTable1753342290682 implements MigrationInterface {
   name = 'CreateTokenTable1753342290682';

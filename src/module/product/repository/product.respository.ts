@@ -1,5 +1,5 @@
-import { AppDataSource } from '@config/typeorm.config.js';
-import { Product } from '@module/product/entity/product.entity.js';
+import { AppDataSource } from '@config/typeorm.config';
+import { Product } from '@module/product/entity/product.entity';
 import { Like } from 'typeorm';
 
 export class ProductRepository {
@@ -12,7 +12,7 @@ export class ProductRepository {
     page: number,
     limit: number,
     search?: string,
-    order: 'ASC' | 'DESC' = 'ASC'
+    order: 'ASC' | 'DESC' = 'ASC',
   ): Promise<{ data: Product[]; total: number }> {
     const where: any = {};
     if (search) {

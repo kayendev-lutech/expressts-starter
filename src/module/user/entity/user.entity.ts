@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { BaseEntity } from '@common/base.entity.js';
+import { BaseEntity } from '@common/base.entity';
 
 @Entity('users')
-export class User extends BaseEntity{
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 

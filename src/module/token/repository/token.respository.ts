@@ -1,5 +1,5 @@
-import { AppDataSource } from '@config/typeorm.config.js';
-import { Token } from '@module/token/entity/token.entity.js';
+import { AppDataSource } from '@config/typeorm.config';
+import { Token } from '@module/token/entity/token.entity';
 
 export class TokenRepository {
   private repo = AppDataSource.getRepository(Token);
@@ -25,16 +25,10 @@ export class TokenRepository {
   }
 
   async revokeTokenBasedOnDeviceId(userId: string, deviceId: string): Promise<any> {
-    return await this.repo.update(
-      { user_id: userId, user_agent: deviceId },
-      { is_revoked: true },
-    );
+    return await this.repo.update({ user_id: userId, user_agent: deviceId }, { is_revoked: true });
   }
 
   async revokeAllToken(userId: string): Promise<any> {
-    return await this.repo.update(
-      { user_id: userId },
-      { is_revoked: true },
-    );
+    return await this.repo.update({ user_id: userId }, { is_revoked: true });
   }
 }

@@ -1,10 +1,5 @@
-import { AppDataSource } from '@config/typeorm.config.js';
-import { Category } from '@module/category/entity/category.entity.js';
-import {
-  AppError,
-  ErrorCode,
-  InternalServerErrorException,
-} from '@errors/app-error.js';
+import { AppDataSource } from '@config/typeorm.config';
+import { Category } from '@module/category/entity/category.entity';
 
 export class CategoryRepository {
   public repo = AppDataSource.getRepository(Category);
@@ -32,6 +27,4 @@ export class CategoryRepository {
     const result = await this.repo.delete({ id });
     return (result.affected ?? 0) > 0;
   }
-
-
 }

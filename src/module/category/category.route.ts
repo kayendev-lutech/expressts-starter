@@ -1,6 +1,6 @@
-import { WrapperClass } from '@utils/wrapper.util.js';
+import { WrapperClass } from '@utils/wrapper.util';
 import { Router } from 'express';
-import { CategoryController } from './controller/category.controller.js';
+import { CategoryController } from './controller/category.controller';
 
 const router = Router();
 const wrappedCategoryController = new WrapperClass(

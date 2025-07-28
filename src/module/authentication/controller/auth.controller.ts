@@ -1,9 +1,6 @@
-import { WrappedRequest } from '@utils/wrapper.util.js';
-import { AuthService } from '@module/authentication/service/auth.service.js';
-import {
-  UnauthorizedException,
-} from '@errors/app-error.js';
-import { instanceToPlain } from 'class-transformer';
+import { WrappedRequest } from '@utils/wrapper.util';
+import { AuthService } from '@module/authentication/service/auth.service';
+import { UnauthorizedException } from '@errors/app-error';
 
 export class AuthController {
   private authService = new AuthService();
@@ -47,4 +44,3 @@ export class AuthController {
     return { status: 200 };
   }
 }
-

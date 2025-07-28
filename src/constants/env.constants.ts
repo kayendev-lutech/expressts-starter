@@ -1,4 +1,4 @@
-import { getEnv } from '@config/dotenv.config.js';
+import { getEnv } from '@config/dotenv.config';
 
 export const port = getEnv('PORT') || 8000;
 export const dbHost = getEnv('DB_HOST') || 'localhost';

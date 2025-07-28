@@ -1,10 +1,6 @@
-import { CategoryRepository } from '@module/category/repository/category.respository.js';
-import { Category } from '@module/category/entity/category.entity.js';
-import {
-  AppError,
-  ErrorCode,
-  InternalServerErrorException,
-} from '@errors/app-error.js';
+import { CategoryRepository } from '@module/category/repository/category.respository';
+import { Category } from '@module/category/entity/category.entity';
+import { AppError, ErrorCode } from '@errors/app-error';
 
 export class CategoryService {
   private categoryRepository: CategoryRepository;

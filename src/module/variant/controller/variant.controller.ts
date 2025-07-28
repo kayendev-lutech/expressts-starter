@@ -1,5 +1,5 @@
-import { WrappedRequest } from '@utils/wrapper.util.js';
-import { VariantService } from '../service/variant.service.js';
+import { WrappedRequest } from '@utils/wrapper.util';
+import { VariantService } from '@module/variant/service/variant.service';
 
 export class VariantController {
   private variantService = new VariantService();

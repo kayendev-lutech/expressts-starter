@@ -15,23 +15,12 @@ interface ErrorResponse {
   status?: number;
 }
 
-function handleSuccess<T>(
-  res: Response,
-  result: SuccessResponse<T> | T,
-) {
+function handleSuccess<T>(res: Response, result: SuccessResponse<T> | T) {
   let responseData: { success: boolean; message: string; data?: T };
   const defaultMessage = 'Operation successful';
 
-  if (
-    typeof result === 'object' &&
-    result !== null &&
-    (result as any)?.status
-  ) {
-    const {
-      status = 200,
-      data,
-      message = defaultMessage,
-    } = result as SuccessResponse<T>;
+  if (typeof result === 'object' && result !== null && (result as any)?.status) {
+    const { status = 200, data, message = defaultMessage } = result as SuccessResponse<T>;
 
     responseData = {
       success: true,
@@ -85,8 +74,7 @@ function handleError(res: Response, error: ErrorResponse | string | any) {
   else if (error.errors) {
     errorStatus = 400;
     errorMessage =
-      error.errors.map((err: { message: string }) => err.message).join(', ') ||
-      'Validation failed';
+      error.errors.map((err: { message: string }) => err.message).join(', ') || 'Validation failed';
     errorObj = error.errors;
   }
   // Handle string errors

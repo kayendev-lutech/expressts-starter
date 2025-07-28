@@ -1,10 +1,6 @@
-import { VariantRepository } from '@module/variant/repository/variant.repository.js';
-import { Variant } from '@module/variant/entity/variant.entity.js';
-import {
-  AppError,
-  ErrorCode,
-  InternalServerErrorException,
-} from '@errors/app-error.js';
+import { VariantRepository } from '@module/variant/repository/variant.repository';
+import { Variant } from '@module/variant/entity/variant.entity';
+import { AppError, ErrorCode, InternalServerErrorException } from '@errors/app-error';
 
 export class VariantService {
   private variantRepository = new VariantRepository();
@@ -36,7 +32,9 @@ export class VariantService {
     try {
       return await this.variantRepository.findByProductId(product_id);
     } catch (error: any) {
-      throw new InternalServerErrorException(error?.message || 'Failed to get variants by product id');
+      throw new InternalServerErrorException(
+        error?.message || 'Failed to get variants by product id',
+      );
     }
   }
 

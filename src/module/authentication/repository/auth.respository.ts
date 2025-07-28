@@ -1,8 +1,8 @@
-import { UserRepository } from '@module/user/repository/user.respository.js';
-import { TokenRepository } from '@module/token/repository/token.respository.js';
-import { User } from '@module/user/entity/user.entity.js';
-import { Token } from '@module/token/entity/token.entity.js';
-import { RegisterUserDto } from '@module/authentication/dto/register.dto.js';
+import { UserRepository } from '@module/user/repository/user.respository';
+import { TokenRepository } from '@module/token/repository/token.respository';
+import { User } from '@module/user/entity/user.entity';
+import { Token } from '@module/token/entity/token.entity';
+import { RegisterUserDto } from '@module/authentication/dto/register.dto';
 
 export class AuthRepository {
   private userRespository: UserRepository;
@@ -49,5 +49,4 @@ export class AuthRepository {
 
     return this.userRespository.repo.findOne({ where });
   }
-
 }

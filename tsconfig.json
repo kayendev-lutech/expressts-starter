@@ -1,64 +1,35 @@
 {
-    "compilerOptions": {
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "target": "ES2022",
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
-        "esModuleInterop": true,
-        "strict": true,
-        "skipLibCheck": true,
-        "isolatedModules": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "baseUrl": ".",
-        "typeRoots": [
-            "./src/types/*",
-            "./node_modules/@types"
-        ],
-        "paths": {
-            "@config/*": [
-                "src/config/*"
-            ],
-            "@module/*": [
-                "src/module/*"
-            ],
-            "@model/*": [
-                "src/model/*"
-            ],
-            "@middlewares/*": [
-                "src/middleware/*"
-            ],
-            "@utils/*": [
-                "src/utils/*"
-            ],
-            "@constants/*": [
-                "src/constants/*"
-            ],
-            "@logger/*": [
-                "src/logger/*"
-            ],
-            "@types/*": [
-                "src/types/*"
-            ],
-            "@errors/*": [
-                "src/errors/*"
-            ],
-            "@common/*": [
-                "src/common/*"
-            ]
-        }
-    },
-    "include": [
-        "src/**/*"
-, "src/swagger.config.ts"    ],
-    "exclude": [
-        "node_modules",
-        "dist"
-    ],
-    "ts-node": {
-        "esm": true,
-        "experimentalSpecifierResolution": "node"
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Node",  
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@config/*": ["src/config/*"],
+      "@module/*": ["src/module/*"],
+      "@model/*": ["src/model/*"],
+      "@middlewares/*": ["src/middleware/*"],
+      "@utils/*": ["src/utils/*"],
+      "@constants/*": ["src/constants/*"],
+      "@logger/*": ["src/logger/*"],
+      "@types/*": ["src/types/*"],
+      "@errors/*": ["src/errors/*"],
+      "@common/*": ["src/common/*"]
     }
+  },
+  "include": ["src/**/*", "src/swagger.config.ts"],
+  "exclude": ["node_modules", "dist"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }

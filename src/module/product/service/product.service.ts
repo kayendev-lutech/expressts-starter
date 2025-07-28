@@ -2,17 +2,18 @@ import { Category } from '@module/category/entity/category.entity.js';
 import { ProductRepository } from '@module/product/repository/product.respository.js';
 import { CategoryRepository } from '@module/category/repository/category.respository.js';
 import { Product } from '@module/product/entity/product.entity.js';
-import {
-  AppError,
-  ErrorCode,
-  InternalServerErrorException,
-} from '@errors/app-error.js';
+import { AppError, ErrorCode, InternalServerErrorException } from '@errors/app-error.js';
 
 export class ProductService {
   private productRepository = new ProductRepository();
   private categoryRepository = new CategoryRepository();
 
-  async getAllWithPagination(page: number, limit: number, search?: string, order: 'ASC' | 'DESC' = 'ASC') {
+  async getAllWithPagination(
+    page: number,
+    limit: number,
+    search?: string,
+    order: 'ASC' | 'DESC' = 'ASC',
+  ) {
     try {
       return await this.productRepository.findWithPagination(page, limit, search, order);
     } catch (error: any) {

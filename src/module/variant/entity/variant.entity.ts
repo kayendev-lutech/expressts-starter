@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { BaseEntity } from '@common/base.entity.js';
+import { BaseEntity } from '@common/base.entity';
 
 @Entity('variants')
-export class Variant extends BaseEntity{
+export class Variant extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
   id!: string;
 
