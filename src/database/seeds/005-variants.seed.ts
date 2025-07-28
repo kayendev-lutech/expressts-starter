@@ -1,4 +1,4 @@
-import { AppDataSource } from '@config/typeorm.config';
+import { AppDataSource } from '@config/typeorm.config.js';
 import { Variant } from '@module/variant/entity/variant.entity';
 import { Product } from '@module/product/entity/product.entity';
 

@@ -2,7 +2,7 @@
   "name": "express-typescript-template",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "jest": {
     "extensionsToTreatAsEsm": [
       ".ts"

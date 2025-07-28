@@ -1,4 +1,4 @@
-import { AppDataSource } from '@config/typeorm.config';
+import { AppDataSource } from '@config/typeorm.config.js';
 import { Category } from '@module/category/entity/category.entity';
 
 export const seedCategories = async () => {

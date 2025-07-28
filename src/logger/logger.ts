@@ -3,10 +3,10 @@ import path from 'path';
 import chalk from 'chalk';
 import { v4 as uuidv4 } from 'uuid';
 import { debugInConsole } from '../constants/env.constants';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// CommonJS: dùng __filename và __dirname có sẵn
+// const __filename = __filename;
+// const __dirname = __dirname;
 
 type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 

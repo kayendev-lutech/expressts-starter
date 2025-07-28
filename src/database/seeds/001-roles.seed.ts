@@ -1,4 +1,4 @@
-import { AppDataSource } from '@config/typeorm.config';
+import { AppDataSource } from '@config/typeorm.config.js';
 import { Role } from '@module/role/entity/role.entity';
 
 export const seedRoles = async () => {

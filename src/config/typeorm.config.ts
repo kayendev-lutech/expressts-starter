@@ -1,11 +1,6 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { dbHost, dbPort, dbName, dbUser, dbPassword } from '../constants/env.constants';
-
-// import { User } from '../module/user/entity/user.entity.js';
-// import { Token } from '../module/token/entity/token.entity.js';
-// import { Product } from '../module/product/entity/product.entity.js';
-// import { Category } from '../module/category/entity/category.entity.js';
+import { dbHost, dbPort, dbName, dbUser, dbPassword } from '../constants/env.constants.js';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

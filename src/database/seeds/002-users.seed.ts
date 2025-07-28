@@ -1,4 +1,4 @@
-import { AppDataSource } from '@config/typeorm.config';
+import { AppDataSource } from '@config/typeorm.config.js';
 import { User } from '@module/user/entity/user.entity';
 import { Role } from '@module/role/entity/role.entity';
 import bcrypt from 'bcryptjs';
