@@ -1,5 +1,5 @@
-import { AppDataSource } from '@config/typeorm.config.js';
-import { Variant } from '@module/variant/entity/variant.entity.js';
+import { AppDataSource } from '@config/typeorm.config';
+import { Variant } from '@module/variant/entity/variant.entity';
 
 export class VariantRepository {
   private repo = AppDataSource.getRepository(Variant);

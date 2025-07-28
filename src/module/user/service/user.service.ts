@@ -1,7 +1,7 @@
-import { UserRepository } from '../repository/user.respository.js';
-import { User } from '../entity/user.entity.js';
-import { AppError, ErrorCode, InternalServerErrorException } from '@errors/app-error.js';
-import { RegisterUserDto } from '@module/authentication/dto/register.dto.js';
+import { UserRepository } from '../repository/user.respository';
+import { User } from '../entity/user.entity';
+import { AppError, ErrorCode, InternalServerErrorException } from '@errors/app-error';
+import { RegisterUserDto } from '@module/authentication/dto/register.dto';
 export class UserService {
   private userRepository: UserRepository;
 
@@ -37,10 +37,7 @@ export class UserService {
   async createUser(data: RegisterUserDto): Promise<User> {
     try {
       const existingUser = await this.userRepository.repo.findOne({
-        where: [
-          { email: data.email },
-          { username: data.username }
-        ]
+        where: [{ email: data.email }, { username: data.username }],
       });
       if (existingUser) {
         throw new AppError(ErrorCode.CONFLICT, 409, 'Username or email already exists');

@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { CustomError } from '../utils/CustomError.js';
-
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
   // Nếu là CustomError thì lấy status code, nếu không thì trả về 500
   const status = err?.HttpStatusCode || err?.status || 500;

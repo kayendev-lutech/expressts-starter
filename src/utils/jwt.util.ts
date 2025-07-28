@@ -3,7 +3,7 @@ import {
   jwtAccessSecret,
   jwtRefreshSecret,
   refreshTokenExpiry,
-} from '@constants/env.constants.js';
+} from '@constants/env.constants';
 import jwt from 'jsonwebtoken';
 
 // Function to create a token

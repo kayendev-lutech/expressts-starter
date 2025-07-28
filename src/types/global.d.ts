@@ -1,4 +1,4 @@
-import { logger as Logger } from '@logger/logger.ts';
+import { logger as Logger } from '@logger/logger';
 
 declare global {
   const logger: typeof Logger;

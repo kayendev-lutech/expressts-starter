@@ -1,12 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-import { debugInConsole } from '../constants/env.constants.js';
+import { debugInConsole } from '../constants/env.constants';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// CommonJS: dùng __filename và __dirname có sẵn
+// const __filename = __filename;
+// const __dirname = __dirname;
 
 type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
@@ -22,9 +22,7 @@ class Logger {
   private logLevel: LogLevel;
   private sessionId: string;
 
-  private constructor(
-    options: LoggerOptions = { logToConsole: true, logLevel: 'info' },
-  ) {
+  private constructor(options: LoggerOptions = { logToConsole: true, logLevel: 'info' }) {
     const logDir = path.resolve(process.cwd(), 'logs');
     if (!fs.existsSync(logDir)) {
       fs.mkdirSync(logDir, { recursive: true });
@@ -37,11 +35,7 @@ class Logger {
     this.logLevel = options.logLevel ?? 'info';
   }
 
-  private writeLog(
-    level: LogLevel,
-    message: string,
-    additionalInfo?: any,
-  ): void {
+  private writeLog(level: LogLevel, message: string, additionalInfo?: any): void {
     const timestamp = new Date().toISOString();
     const logMessage = `${timestamp} - ${level.toUpperCase()}: ${message}`;
     const fullLogMessage = additionalInfo
@@ -51,12 +45,7 @@ class Logger {
     fs.appendFileSync(this.logFilePath, fullLogMessage + '\n');
 
     if (this.logToConsole && this.shouldLog(level)) {
-      const formattedMessage = this.getColoredMessage(
-        level,
-        timestamp,
-        message,
-        additionalInfo,
-      );
+      const formattedMessage = this.getColoredMessage(level, timestamp, message, additionalInfo);
       console.log(formattedMessage.trim());
     }
   }

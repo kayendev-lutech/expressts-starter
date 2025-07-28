@@ -1,4 +1,4 @@
-import { ErrorCode, ErrorDetails } from '@errors/error-code.js';
+import { ErrorCode, ErrorDetails } from '@errors/error-code';
 
 export class AppError extends Error {
   public success: boolean;
@@ -16,7 +16,7 @@ export class AppError extends Error {
     this.statusCode = statusCode;
     this.code = code;
     this.details = details;
-    
+
     Object.setPrototypeOf(this, new.target.prototype);
   }
 }

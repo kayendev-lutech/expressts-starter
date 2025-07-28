@@ -1,6 +1,5 @@
-import { CategoryService } from '@module/category/service/category.service.js';
-import { WrappedRequest } from '@utils/wrapper.util.js';
-import { AppError, ErrorCode } from '@errors/app-error.js';
+import { CategoryService } from '@module/category/service/category.service';
+import { WrappedRequest } from '@utils/wrapper.util';
 
 export class CategoryController {
   private categoryService = new CategoryService();

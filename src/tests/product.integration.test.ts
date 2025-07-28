@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../app.js'; 
+import app from '../app';
 
 describe('Product API Integration', () => {
   it('GET /api/v1/product trả về 200 và có data', async () => {

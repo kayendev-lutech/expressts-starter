@@ -1,21 +1,20 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import { globalLimiter, authLimiter } from '@config/rateLimit.config.js';
-import { corsOptions } from '@config/cors.config.js';
-import { helmetOptions,  } from '@config/helmet.config.js';
+import { globalLimiter, authLimiter } from '@config/rateLimit.config';
+import { corsOptions } from '@config/cors.config';
+import { helmetOptions } from '@config/helmet.config';
 // Middleware
-import { errorHandler } from '@middlewares/errorHandler.js';
-import { generateDeviceIdMiddleware } from '@middlewares/deviceId-generator.middleware.js';
-import apiWatcher from '@middlewares/api-watcher.middleware.js';
-import notFoundHandler from '@middlewares/notFoundHandler.js';
+import { errorHandler } from '@middlewares/errorHandler';
+import { generateDeviceIdMiddleware } from '@middlewares/deviceId-generator.middleware';
+import apiWatcher from '@middlewares/api-watcher.middleware';
+import notFoundHandler from '@middlewares/notFoundHandler';
 // Routes
-import healthRoute from '@module/health/health.route.js';
-import userRoute from '@module/user/user.route.js';
-import variantRoute from '@module/variant/variant.route.js';
-import authRoute from '@module/authentication/auth.route.js';
-import productRoute from '@module/product/product.route.js';
-import categoryRoute from '@module/category/category.route.js';
+import userRoute from '@module/user/user.route';
+import variantRoute from '@module/variant/variant.route';
+import authRoute from '@module/authentication/auth.route';
+import productRoute from '@module/product/product.route';
+import categoryRoute from '@module/category/category.route';
 // Swagger
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -42,7 +41,6 @@ app.use('/api/v1/user', userRoute);
 app.use('/api/v1/variant', variantRoute);
 app.use('/api/v1/product', productRoute);
 app.use('/api/v1/category', categoryRoute);
-app.use('/api/v1', healthRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(notFoundHandler);

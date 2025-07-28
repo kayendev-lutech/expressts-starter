@@ -1,10 +1,6 @@
-import { ProductService } from '@module/product/service/product.service.js';
-import { WrappedRequest } from '@utils/wrapper.util.js';
-import {
-  AppError,
-  ErrorCode,
-  InternalServerErrorException,
-} from '@errors/app-error.js';
+import { ProductService } from '@module/product/service/product.service';
+import { WrappedRequest } from '@utils/wrapper.util';
+import { AppError, InternalServerErrorException } from '@errors/app-error';
 
 export class ProductController {
   private productService = new ProductService();

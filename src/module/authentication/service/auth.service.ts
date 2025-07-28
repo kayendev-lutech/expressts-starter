@@ -1,19 +1,15 @@
 import dayjs from 'dayjs';
-import { RegisterUserDto } from '@module/authentication/dto/register.dto.js';
-import { AuthRepository } from '@module/authentication/repository/auth.respository.js';
-import { LoginUserDto } from '@module/authentication/dto/login.dto.js';
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyRefreshToken,
-} from '@utils/jwt.util.js';
+import { RegisterUserDto } from '@module/authentication/dto/register.dto';
+import { AuthRepository } from '@module/authentication/repository/auth.respository';
+import { LoginUserDto } from '@module/authentication/dto/login.dto';
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '@utils/jwt.util';
 import {
   AppError,
   BadRequestException,
   UnauthorizedException,
   ConflictException,
   InternalServerErrorException,
-} from '@errors/app-error.js';
+} from '@errors/app-error';
 
 export class AuthService {
   private authRepository: AuthRepository;
@@ -59,10 +55,7 @@ export class AuthService {
   async login(loginUserDto: LoginUserDto, deviceId: string): Promise<any> {
     try {
       const { email, password } = loginUserDto;
-      const userDetails = await this.authRepository.comparePassword(
-        email,
-        password,
-      );
+      const userDetails = await this.authRepository.comparePassword(email, password);
 
       if (!userDetails) {
         throw new UnauthorizedException('Invalid credentials');
@@ -79,7 +72,7 @@ export class AuthService {
         token: refreshToken,
         type: 'refresh',
         expires_at: dayjs().add(7, 'day').toDate(),
-        created_ip: '', 
+        created_ip: '',
         user_agent: deviceId,
       });
 
@@ -98,22 +91,14 @@ export class AuthService {
       const payload = verifyRefreshToken(refreshToken) as any;
       const userId = payload.userId;
 
-      const tokenDoc = await this.authRepository.getToken(
-        userId,
-        deviceId,
-        refreshToken,
-      );
-      if (!tokenDoc)
-        throw new UnauthorizedException('Invalid refresh token');
+      const tokenDoc = await this.authRepository.getToken(userId, deviceId, refreshToken);
+      if (!tokenDoc) throw new UnauthorizedException('Invalid refresh token');
 
       let newRefreshToken = refreshToken;
 
       const newToken = generateRefreshToken({ userId: userId });
       tokenDoc.token = refreshToken;
-      const updatedData = await this.authRepository.updateToken(
-        tokenDoc.id as string,
-        tokenDoc,
-      );
+      const updatedData = await this.authRepository.updateToken(tokenDoc.id as string, tokenDoc);
       if (updatedData) {
         newRefreshToken = newToken;
       }
@@ -143,5 +128,4 @@ export class AuthService {
       throw new InternalServerErrorException(error?.message || 'Failed to logout all devices');
     }
   }
-
 }

@@ -1,10 +1,10 @@
-import { WrapperClass } from '@utils/wrapper.util.js';
+import { WrapperClass } from '@utils/wrapper.util';
 import { Router } from 'express';
-import { AuthController } from '@module/authentication/controller/auth.controller.js';
-import { validateRequest } from '../../middleware/dto-validator.js';
-import { RegisterUserDto } from '@module/authentication/dto/register.dto.js';
-import { LoginUserDto } from '@module/authentication/dto/login.dto.js';
-import authMiddleware from '../../middleware/auth.middleware.js';
+import { AuthController } from '@module/authentication/controller/auth.controller';
+import { validateRequest } from '@middlewares/dto-validator';
+import { RegisterUserDto } from '@module/authentication/dto/register.dto';
+import { LoginUserDto } from '@module/authentication/dto/login.dto';
+import authMiddleware from '@middlewares/auth.middleware';
 const router = Router();
 const wrappedLoginController = new WrapperClass(
   new AuthController(),
@@ -32,11 +32,7 @@ const wrappedLoginController = new WrapperClass(
  *       200:
  *         description: Đăng nhập thành công
  */
-router.post(
-  '/login',
-  validateRequest(LoginUserDto),
-  wrappedLoginController.login,
-);
+router.post('/login', validateRequest(LoginUserDto), wrappedLoginController.login);
 
 /**
  * @swagger
@@ -62,11 +58,7 @@ router.post(
  *       201:
  *         description: Đăng ký thành công
  */
-router.post(
-  '/register',
-  validateRequest(RegisterUserDto),
-  wrappedLoginController.createUser,
-);
+router.post('/register', validateRequest(RegisterUserDto), wrappedLoginController.createUser);
 
 /**
  * @swagger

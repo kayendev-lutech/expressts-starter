@@ -1,14 +1,7 @@
 import { Request, Response } from 'express';
-import { handleError, handleSuccess } from './response.util.js';
+import { handleError, handleSuccess } from './response.util';
 
-export interface WrappedRequest<
-  B = any,
-  H = any,
-  P = any,
-  Q = any,
-  U = any,
-  K = any,
-> {
+export interface WrappedRequest<B = any, H = any, P = any, Q = any, U = any, K = any> {
   body: B;
   headers: H;
   params: P;
@@ -49,9 +42,7 @@ export class WrapperClass<T extends Record<string, any>> {
               };
 
               // Call the bound method with the wrapped request
-              const result = await (boundMethod as unknown as ControllerMethod)(
-                wrappedRequest,
-              );
+              const result = await (boundMethod as unknown as ControllerMethod)(wrappedRequest);
 
               handleSuccess(res, result);
             } catch (error) {

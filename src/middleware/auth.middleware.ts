@@ -6,11 +6,7 @@ interface AuthenticatedRequest extends Request {
   user?: { userId: string; username: string }; // Adjust based on your payload structure
 }
 
-const authMiddleware = (
-  req: AuthenticatedRequest,
-  res: Response,
-  next: NextFunction,
-) => {
+const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   // Get the token from the Authorization header
   const authHeader = req.headers.authorization;
 
