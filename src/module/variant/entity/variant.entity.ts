@@ -1,18 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '@common/base.entity';
+import { Product } from '@module/product/entity/product.entity';
+import { CurrencyCode } from '@common/currency.enum';
 
 @Entity('variants')
 export class Variant extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
-  id!: string;
+  id!: number;
 
   @Column({ type: 'int' })
-  product_id!: string;
+  product_id!: number;
 
   @Column({ type: 'varchar' })
   name!: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', nullable: true, unique: true })
   sku?: string;
 
   @Column({ type: 'varchar', nullable: true })
@@ -24,16 +26,16 @@ export class Variant extends BaseEntity {
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
   discount_price?: number;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'enum', enum: CurrencyCode, default: CurrencyCode.VND })
   currency_code?: string;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int', default: 0 })
   stock?: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int', default: 0 })
   stock_reserved?: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'int', default: 0 })
   low_stock_threshold?: number;
 
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
@@ -47,4 +49,16 @@ export class Variant extends BaseEntity {
 
   @Column({ type: 'boolean', default: true })
   is_active!: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  is_default!: boolean;
+
+  @Column({ type: 'int', default: 0 })
+  sort_order?: number;
+  
+  @ManyToOne(() => Product, product => product.variants, { 
+    onDelete: 'CASCADE' 
+  })
+  @JoinColumn({ name: 'product_id' })
+  product?: Product;
 }

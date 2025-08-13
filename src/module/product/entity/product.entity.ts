@@ -1,10 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { BaseEntity } from '@common/base.entity';
+import { Variant } from '@module/variant/entity/variant.entity';
+import { CurrencyCode } from '@common/currency.enum';
 
 @Entity('products')
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int' })
-  id!: string;
+  id!: number;
 
   @Column({ type: 'varchar' })
   name!: string;
@@ -21,11 +23,11 @@ export class Product extends BaseEntity {
   @Column({ type: 'decimal', precision: 12, scale: 2, nullable: true })
   discount_price?: number;
 
-  @Column({ type: 'varchar', default: 'VND' })
+  @Column({ type: 'enum', enum: CurrencyCode, default: CurrencyCode.VND })
   currency_code!: string;
 
   @Column({ type: 'int' })
-  category_id!: string;
+  category_id!: number;
 
   @Column({ type: 'varchar', nullable: true })
   image_url?: string;
@@ -38,4 +40,10 @@ export class Product extends BaseEntity {
 
   @Column({ type: 'json', nullable: true })
   metadata?: Record<string, any>;
+
+  @OneToMany(() => Variant, variant => variant.product, { 
+    cascade: true, 
+    eager: false
+  })
+  variants?: Variant[];
 }
